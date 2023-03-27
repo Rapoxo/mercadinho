@@ -1,5 +1,5 @@
 import React from "react";
-import { ShoppingCartSimple } from "phosphor-react";
+import { ShoppingCartSimple} from "phosphor-react";
 
 type product = {
   name: string;
@@ -35,7 +35,7 @@ const products: product[] = [
 function App() {
   const [filter, setFilter] = React.useState<null | string>(null);
   const [order, setOrder] = React.useState<null | string>("alfa");
-  const [decreasing, setDecreasing] = React.useState<boolean>(false);
+  const [descending, setDescending] = React.useState<boolean>(false);
   const [searchValue, setSearch] = React.useState<string>("");
 
   const [cart, setCart] = React.useState<product[]>([]);
@@ -141,8 +141,8 @@ function App() {
             </ul>
             <div className="flex flex-col">
               <span className="text-xl">Ordenar por</span>
-              <span className="text-lg my-1 cursor-pointer select-none bg-green-800 text-white rounded-md p-0.5" onClick={() => setDecreasing(prev => !prev)}>
-                {decreasing ? "↓" : "↑"} Ordem {decreasing ? "decrescente" : "crescente"}{" "}
+              <span className="text-lg my-1 px-2 cursor-pointer select-none bg-green-800 text-white rounded-md p-0.5" onClick={() => setDescending(prev => !prev)}>
+                {descending ? "↓" : "↑"} Ordem {descending ? "decrescente" : "crescente"}{" "}
               </span>
             </div>
             <ul>
@@ -164,10 +164,10 @@ function App() {
               .filter(el => (filter ? el.tag === filter : true))
               .sort((a, b) => {
                 if (order === "alfa") {
-                  return decreasing ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name);
+                  return descending ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name);
                 }
                 if (order === "price") {
-                  return decreasing ? b.price - a.price : a.price - b.price;
+                  return descending ? b.price - a.price : a.price - b.price;
                 }
                 return 0;
               })
