@@ -1,4 +1,5 @@
 import React from "react";
+import { ShoppingCartSimple } from "phosphor-react";
 
 type product = {
   name: string;
@@ -30,7 +31,6 @@ const products: product[] = [
   { name: "Máquina de lavar", tag: "Eletrodomésticos", price: 1999.99, url: `https://randomuser.me/api/portraits/lego/${Math.floor(Math.random() * 9)}.jpg` },
   { name: "Micro-ondas", tag: "Eletrodomésticos", price: 499.99, url: `https://randomuser.me/api/portraits/lego/${Math.floor(Math.random() * 9)}.jpg` },
 ];
-
 
 function App() {
   const [filter, setFilter] = React.useState<null | string>(null);
@@ -71,6 +71,7 @@ function App() {
   }
 
   function addToCart(product: product) {
+    if (cart.length > 98) return;
     setCart(prev => [...prev, product]);
   }
 
@@ -100,11 +101,9 @@ function App() {
               <input ref={inputRef} type="text" className="w-full rounded-md focus:bg-green-50 p-2" placeholder="Pesquise um produto aqui" />
             </form>
           </div>
-          <li className="flex flex-col text-gray-400 hover:text-lime-800 cursor-pointer hover:bg-gray-300 p-4 border-x border-x-gray-400 ">
-            <div>
-              <span className="text-white text-sm bg-green-800 rounded-full px-1">{cart.length}</span> Carrinho{" "}
-            </div>
-            {cart.length > 0 && <span>Total: R${cart.reduce((accumulator, product) => accumulator + product.price, 0).toLocaleString("pt-br")}</span>}
+          <li className="flex text-gray-400 align-middle hover:text-lime-800 cursor-pointer hover:bg-gray-300 p-4 border-x border-x-gray-400 relative ">
+            <span className="absolute text-white bg-green-800 font-bold text-xs  z-10 rounded-full px-1 right-2">{cart.length}</span>
+            <ShoppingCartSimple className="font-bold text-black" size={28} />
           </li>
         </ul>
       </nav>
@@ -183,24 +182,23 @@ function App() {
                       <span>{product.name}</span>
                       <span className="text-gray-500">{product.tag}</span>
                       <span className="text-green-900 font-bold">R$ {product.price.toLocaleString("pt-br")}</span>
-                      {cart.find(el => el === product) ? (
-                        <div className="text-lg">
-                          <span className="flex justify-between w-[172.7px] text-white bg-green-800 rounded-lg select-none p-2 mt-2 text-center ">
+                      <div className="text-md w-[180px]">
+                        {cart.find(el => el === product) ? (
+                          <span className="flex justify-between w-full text-white bg-green-800 rounded-lg select-none p-2 mt-2 text-center ">
                             <span onClick={() => addToCart(product)} className="cursor-pointer">
                               +
                             </span>
                             <span>{cart.filter(p => p === product).length}</span>
                             <span onClick={() => removeFromCart(product)} className="cursor-pointer">
-                              {" "}
-                              -{" "}
+                              -
                             </span>
                           </span>
-                        </div>
-                      ) : (
-                        <span onClick={() => addToCart(product)} className="text-white cursor-pointer bg-green-800 rounded-lg select-none p-2 mt-2 text-center w-full">
-                          Adicionar ao carrinho
-                        </span>
-                      )}
+                        ) : (
+                          <span onClick={() => addToCart(product)} className="flex text-white cursor-pointer bg-green-800 rounded-lg select-none p-2 mt-2 text-center w-full">
+                            Adicionar ao carrinho
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 );
