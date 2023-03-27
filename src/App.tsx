@@ -1,5 +1,5 @@
 import React from "react";
-import { ShoppingCartSimple} from "phosphor-react";
+import { ShoppingCartSimple, SortAscending, SortDescending } from "phosphor-react";
 
 type product = {
   name: string;
@@ -141,8 +141,8 @@ function App() {
             </ul>
             <div className="flex flex-col">
               <span className="text-xl">Ordenar por</span>
-              <span className="text-lg my-1 px-2 cursor-pointer select-none bg-green-800 text-white rounded-md p-0.5" onClick={() => setDescending(prev => !prev)}>
-                {descending ? "↓" : "↑"} Ordem {descending ? "decrescente" : "crescente"}{" "}
+              <span className="flex text-lg my-1 px-2 cursor-pointer select-none bg-green-800 text-white rounded-md p-0.5" onClick={() => setDescending(prev => !prev)}>
+                <span className="mr-1">{descending ? <SortDescending size={24} /> : <SortAscending size={24} />}</span> Ordem {descending ? "decrescente" : "crescente"}{" "}
               </span>
             </div>
             <ul>
