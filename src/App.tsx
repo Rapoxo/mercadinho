@@ -101,10 +101,12 @@ function App() {
               <input ref={inputRef} type="text" className="w-full rounded-md focus:bg-green-50 p-2" placeholder="Pesquise um produto aqui" />
             </form>
           </div>
+          <a href="#cart">
           <li className="flex text-gray-400 align-middle hover:text-lime-800 cursor-pointer hover:bg-gray-300 p-4 border-x border-x-gray-400 relative ">
-            <span className="absolute text-white bg-green-800 font-bold text-xs  z-10 rounded-full px-1 right-2">{cart.length}</span>
+            <span className="absolute text-white bg-green-800 font-bold text-xs border-2 border-gray-200  z-10 rounded-full px-1 right-3 top-3">{cart.length}</span>
             <ShoppingCartSimple className="font-bold text-black" size={28} />
           </li>
+          </a>
         </ul>
       </nav>
       <div className="flex">
