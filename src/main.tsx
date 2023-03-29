@@ -6,32 +6,41 @@ import "./index.css";
 
 import CartProvider from "./context/CartProvider";
 
+import App from "./App";
 import ErrorPage from "./routes/error-page";
 import Orders from "./routes/orders";
 import Root from "./routes/root";
 import Search from "./routes/search";
-import Navbar from "./components/Navbar";
+import About from "./routes/about";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Root />,
+    element: <App />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "/search",
-    element: <Search />,
-  },
-  {
-    path: "/orders",
-    element: <Orders />,
+    children: [
+      {
+        path: "/",
+        element: <Root />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
+      },
+      {
+        path: "/orders",
+        element: <Orders />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+    ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <CartProvider>
-      <Navbar />
       <RouterProvider router={router} />
     </CartProvider>
   </React.StrictMode>

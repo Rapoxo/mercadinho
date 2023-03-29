@@ -1,10 +1,15 @@
 import React from "react";
+import { useSearchParams } from "react-router-dom";
+
 import { SortAscending, SortDescending } from "phosphor-react";
+
 import ItemCard from "../components/ItemCard";
+
+type tags = "Alimentos" | "Eletrônicos" | "Móveis" | "Eletrodomésticos";
 
 type product = {
   name: string;
-  tag: "Alimentos" | "Eletrônicos" | "Móveis" | "Eletrodomésticos";
+  tag: tags;
   price: number;
   image_url: string;
 };
@@ -38,9 +43,10 @@ function Search() {
   const [order, setOrder] = React.useState<null | string>("alfa");
   const [descending, setDescending] = React.useState<boolean>(false);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   // Trocar por uma query
   const [searchValue, setSearch] = React.useState<string>("");
-
 
   const productTags = [
     {
@@ -60,8 +66,6 @@ function Search() {
       quantity: 4,
     },
   ];
-
-
 
   return (
     <div>
@@ -120,6 +124,7 @@ function Search() {
           <main className="flex flex-wrap">
             {[...products]
               .filter(el => (filter ? el.tag === filter : true))
+              .filter(el => (searchParams.get("query") ? el.name.toLowerCase().includes(searchParams.get("query") as string) : true))
               .sort((a, b) => {
                 if (order === "alfa") {
                   return descending ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name);
