@@ -40,13 +40,13 @@ const products: product[] = [
 
 function Search() {
   const [filter, setFilter] = React.useState<null | string>(null);
-  const [order, setOrder] = React.useState<null | string>("alfa");
+  const [order, setOrder] = React.useState<string>("alfa");
   const [descending, setDescending] = React.useState<boolean>(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Trocar por uma query
-  const [searchValue, setSearch] = React.useState<string>("");
+  const query = searchParams.get("query");
+  const sortBy = searchParams.get("sortBy");
 
   const productTags = [
     {
@@ -67,6 +67,13 @@ function Search() {
     },
   ];
 
+  React.useEffect(() => {
+    setSearchParams({
+      query: query || "",
+      sortBy: order,
+    });
+  }, [order]);
+
   return (
     <div>
       <div className="flex">
@@ -74,7 +81,7 @@ function Search() {
           <span className="text-xl">Filtrar por</span>
           <div className="">
             <span>Tag:</span>
-            <ul className="flex flex-wrap">
+            <ul className="flex flex-col">
               {productTags.map(product => {
                 const { tag, quantity } = product;
                 return (
@@ -120,11 +127,11 @@ function Search() {
           </div>
         </aside>
         <div className="flex flex-col w-full m-5">
-          <h2 className="text-2xl">Mostrando {searchValue ? `resultados para "${searchValue}":` : "todos os produtos:"}</h2>
+          <h2 className="text-2xl">Mostrando {query ? `resultados para "${query}":` : "todos os produtos:"}</h2>
           <main className="flex flex-wrap">
             {[...products]
               .filter(el => (filter ? el.tag === filter : true))
-              .filter(el => (searchParams.get("query") ? el.name.toLowerCase().includes(searchParams.get("query") as string) : true))
+              .filter(el => (query ? el.name.toLowerCase().includes(query as string) : true))
               .sort((a, b) => {
                 if (order === "alfa") {
                   return descending ? b.name.localeCompare(a.name) : a.name.localeCompare(b.name);

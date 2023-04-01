@@ -11,6 +11,7 @@ type CartContextType = {
   cart: CartType;
   addToCart: (product: product) => void;
   removeFromCart: (product: product) => void;
+  emptyCart: () => void;
 };
 
 type CartType = {
@@ -23,7 +24,8 @@ type CartType = {
 export const CartContext = React.createContext({} as CartContextType);
 
 function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = React.useState<CartType>({ items: [] });
+  const initialValue = { items: [] };
+  const [cart, setCart] = React.useState<CartType>(initialValue);
 
   function addToCart(product: product) {
     if (cart.items.length > 98) return;
@@ -34,7 +36,6 @@ function CartProvider({ children }: { children: React.ReactNode }) {
     if (foundProduct) {
       foundProduct.quantity += 1;
       setCart({ items: newItems });
-      console.log(newItems);
     } else {
       newItems.push({ product, quantity: 1 });
       setCart({ items: newItems });
@@ -54,7 +55,11 @@ function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  return <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>{children}</CartContext.Provider>;
+  function emptyCart() {
+    setCart(initialValue);
+  }
+
+  return <CartContext.Provider value={{ cart, addToCart, removeFromCart, emptyCart }}>{children}</CartContext.Provider>;
 }
 
 export default CartProvider;

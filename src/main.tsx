@@ -12,6 +12,7 @@ import Orders from "./routes/orders";
 import Root from "./routes/root";
 import Search from "./routes/search";
 import About from "./routes/about";
+import Cart from "./routes/cart";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },
